@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuralNest – Learn Smarter with AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #3a3a3a;
+    --ink-muted: #777;
+    --surface: #ffffff;
+    --surface-off: #f7f6f2;
+    --surface-alt: #f0ede6;
+    --accent: #5c3ef4;
+    --accent-light: #ede9fd;
+    --accent-dark: #3b27b5;
+    --teal: #0ca678;
+    --teal-light: #e1f5ee;
+    --amber: #e07b00;
+    --amber-light: #fef3dc;
+    --coral: #d84f2c;
+    --coral-light: #faecea;
+    --border: rgba(0,0,0,0.1);
+    --radius: 12px;
+    --radius-lg: 20px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-md: 0 8px 32px rgba(0,0,0,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background: var(--surface);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+
+  a { color: inherit; text-decoration: none; }
+
+  img { display: block; max-width: 100%; }
+
+  .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1140px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 1.3rem; letter-spacing: -0.02em;
+  }
+  .logo-mark {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 18px; font-weight: 800;
+    font-family: 'Playfair Display', serif;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a {
+    font-size: 0.9rem; font-weight: 500; color: var(--ink-soft);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .btn-nav {
+    background: var(--accent); color: white;
+    padding: 0.5rem 1.3rem; border-radius: 8px;
+    font-size: 0.88rem; font-weight: 600;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-nav:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  #home {
+    background: var(--surface-off);
+    padding: 6rem 2rem 5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #home::before {
+    content: '';
+    position: absolute; top: -120px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(92,62,244,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-light); color: var(--accent);
+    border-radius: 50px; padding: 0.35rem 1rem;
+    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  #home h1 {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    color: var(--ink);
+    max-width: 820px; margin: 0 auto 1.5rem;
+    letter-spacing: -0.03em;
+  }
+  #home h1 em { color: var(--accent); font-style: normal; }
+  #home p.hero-sub {
+    font-size: 1.15rem; color: var(--ink-muted);
+    max-width: 560px; margin: 0 auto 2.5rem;
+    font-weight: 400;
+  }
+  .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3.5rem; }
+  .btn-primary {
+    background: var(--accent); color: white;
+    padding: 0.85rem 2rem; border-radius: var(--radius);
+    font-weight: 600; font-size: 1rem;
+    transition: background 0.2s, transform 0.1s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); }
+  .btn-secondary {
+    background: white; color: var(--ink);
+    padding: 0.85rem 2rem; border-radius: var(--radius);
+    font-weight: 600; font-size: 1rem;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s, transform 0.1s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num { font-size: 2rem; font-weight: 800; font-family: 'Playfair Display', serif; color: var(--ink); }
+  .stat-label { font-size: 0.85rem; color: var(--ink-muted); margin-top: 2px; }
+  .hero-mockup {
+    max-width: 860px; margin: 3.5rem auto 0;
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .mockup-bar {
+    background: var(--surface-alt); padding: 0.7rem 1rem;
+    display: flex; align-items: center; gap: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #f97b6f; }
+  .dot-y { background: #f7c948; }
+  .dot-g { background: #63d77c; }
+  .mockup-content {
+    display: grid; grid-template-columns: 220px 1fr;
+    height: 360px; font-family: 'Inter', sans-serif; font-size: 0.82rem;
+  }
+  .mockup-sidebar {
+    background: #faf9f7; border-right: 1px solid var(--border);
+    padding: 1.2rem;
+  }
+  .sidebar-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); margin-bottom: 0.6rem; }
+  .sidebar-item {
+    padding: 0.5rem 0.7rem; border-radius: 8px;
+    display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+    color: var(--ink-soft); cursor: default; transition: background 0.15s;
+  }
+  .sidebar-item.active { background: var(--accent-light); color: var(--accent); font-weight: 600; }
+  .sidebar-item:not(.active):hover { background: var(--surface-alt); }
+  .sidebar-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .mockup-main { padding: 1.4rem; overflow: hidden; }
+  .mockup-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--ink); }
+  .mockup-sub { font-size: 0.78rem; color: var(--ink-muted); margin-bottom: 1rem; }
+  .progress-row { margin-bottom: 1rem; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--ink-soft); margin-bottom: 4px; }
+  .progress-bar { height: 6px; background: var(--surface-alt); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 4px; }
+  .course-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
+  .course-card {
+    background: var(--surface-off); border-radius: 10px;
+    padding: 0.9rem; border: 1px solid var(--border);
+  }
+  .course-tag { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .course-name { font-size: 0.8rem; font-weight: 600; color: var(--ink); }
+  .course-meta { font-size: 0.7rem; color: var(--ink-muted); margin-top: 3px; }
+
+  /* ── SECTIONS COMMON ── */
+  section { padding: 5rem 2rem; }
+  .section-eyebrow {
+    font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.75rem;
+  }
+  .section-title { font-size: clamp(1.9rem, 3.5vw, 2.8rem); color: var(--ink); margin-bottom: 1rem; letter-spacing: -0.02em; }
+  .section-sub { font-size: 1.05rem; color: var(--ink-muted); max-width: 540px; line-height: 1.7; }
+
+  /* ── ABOUT ── */
+  #about { background: white; }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-card {
+    background: var(--surface-off); border-radius: var(--radius-lg);
+    border: 1px solid var(--border); padding: 2rem;
+    box-shadow: var(--shadow);
+  }
+  .about-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--teal-light); color: var(--teal);
+    border-radius: 50px; padding: 4px 12px; font-size: 0.78rem; font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .about-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+  .about-ai-viz {
+    display: flex; flex-direction: column; gap: 12px; margin-top: 1rem;
+  }
+  .ai-node {
+    background: white; border-radius: 10px; border: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.85rem;
+  }
+  .ai-node-label { font-weight: 600; color: var(--ink); }
+  .ai-node-val { color: var(--accent); font-weight: 700; }
+  .node-bar-wrap { width: 80px; height: 5px; background: var(--surface-alt); border-radius: 3px; overflow: hidden; }
+  .node-bar { height: 100%; background: var(--accent); border-radius: 3px; }
+  .about-floating {
+    position: absolute; right: -20px; bottom: 30px;
+    background: white; border-radius: var(--radius); border: 1px solid var(--border);
+    box-shadow: var(--shadow-md); padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+  }
+  .about-floating-title { font-weight: 600; color: var(--ink); font-size: 0.85rem; margin-bottom: 2px; }
+  .about-floating-sub { color: var(--ink-muted); font-size: 0.75rem; }
+  .about-pill {
+    display: inline-block; background: var(--accent-light); color: var(--accent);
+    border-radius: 4px; padding: 2px 8px; font-size: 0.7rem; font-weight: 600;
+  }
+  .about-points { list-style: none; margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+  .about-points li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 0.95rem; color: var(--ink-soft);
+  }
+  .about-check {
+    width: 20px; height: 20px; border-radius: 50%; background: var(--teal-light);
+    color: var(--teal); font-size: 11px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+  }
+  .founders { margin-top: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+  .founder-avatars { display: flex; }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%; border: 2px solid white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700; color: white;
+    margin-left: -8px;
+  }
+  .avatar:first-child { margin-left: 0; }
+  .founders-text { font-size: 0.85rem; color: var(--ink-muted); }
+  .founders-text strong { color: var(--ink); }
+
+  /* ── SERVICES ── */
+  #services { background: var(--surface-off); }
+  .services-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 3.5rem; align-items: end; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .service-card {
+    background: white; border-radius: var(--radius-lg);
+    border: 1px solid var(--border); padding: 1.75rem;
+    box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .service-card.featured { border-color: var(--accent); }
+  .featured-tag {
+    position: absolute; top: 1rem; right: 1rem;
+    background: var(--accent); color: white;
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 3px 10px; border-radius: 20px;
+  }
+  .service-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 1rem;
+  }
+  .service-card h3 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .service-card p { font-size: 0.88rem; color: var(--ink-muted); line-height: 1.6; }
+  .service-tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 1rem; }
+  .tag {
+    background: var(--surface-off); color: var(--ink-soft);
+    border-radius: 4px; padding: 2px 8px; font-size: 0.72rem; font-weight: 500;
+    border: 1px solid var(--border);
+  }
+
+  /* ── HOW IT WORKS ── */
+  #how { background: white; }
+  .steps-header { text-align: center; margin-bottom: 4rem; }
+  .steps-header .section-sub { margin: 0 auto; }
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; position: relative; }
+  .steps-grid::before {
+    content: '';
+    position: absolute; top: 32px; left: calc(12.5% + 16px); right: calc(12.5% + 16px);
+    height: 1px; background: var(--border);
+  }
+  .step { text-align: center; }
+  .step-num {
+    width: 64px; height: 64px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: 800; font-family: 'Playfair Display', serif;
+    margin: 0 auto 1rem; position: relative; z-index: 1;
+    border: 2px solid;
+  }
+  .step h4 { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .step p { font-size: 0.85rem; color: var(--ink-muted); line-height: 1.6; }
+
+  /* ── COURSES ── */
+  #courses { background: var(--surface-off); }
+  .courses-header { margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; }
+  .courses-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .course-big-card {
+    background: white; border-radius: var(--radius-lg);
+    border: 1px solid var(--border); overflow: hidden;
+    box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .course-big-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .course-thumb {
+    height: 160px; display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem; position: relative;
+  }
+  .course-level {
+    position: absolute; top: 12px; left: 12px;
+    border-radius: 6px; padding: 3px 10px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  }
+  .course-body { padding: 1.25rem; }
+  .course-body h4 { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .course-body p { font-size: 0.82rem; color: var(--ink-muted); margin-bottom: 0.75rem; line-height: 1.5; }
+  .course-foot { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
+  .course-rating { color: var(--amber); font-weight: 600; }
+  .course-students { color: var(--ink-muted); }
+  .enroll-btn {
+    background: var(--accent-light); color: var(--accent);
+    border-radius: 8px; padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600;
+    transition: background 0.2s;
+  }
+  .enroll-btn:hover { background: var(--accent); color: white; }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { background: white; }
+  .test-header { text-align: center; margin-bottom: 3rem; }
+  .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .test-card {
+    background: var(--surface-off); border-radius: var(--radius-lg);
+    border: 1px solid var(--border); padding: 1.5rem;
+  }
+  .test-stars { color: var(--amber); font-size: 0.85rem; margin-bottom: 0.75rem; letter-spacing: 2px; }
+  .test-card blockquote {
+    font-size: 0.9rem; color: var(--ink-soft); line-height: 1.7;
+    margin-bottom: 1rem; font-style: italic;
+  }
+  .test-author { display: flex; align-items: center; gap: 10px; }
+  .test-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: white; flex-shrink: 0;
+  }
+  .test-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+  .test-role { font-size: 0.75rem; color: var(--ink-muted); }
+
+  /* ── PRICING ── */
+  #pricing { background: var(--surface-off); }
+  .pricing-header { text-align: center; margin-bottom: 3rem; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 960px; margin: 0 auto; }
+  .pricing-card {
+    background: white; border-radius: var(--radius-lg);
+    border: 1px solid var(--border); padding: 2rem;
+    box-shadow: var(--shadow); text-align: center;
+    transition: transform 0.2s;
+  }
+  .pricing-card:hover { transform: translateY(-4px); }
+  .pricing-card.popular { border-color: var(--accent); border-width: 2px; }
+  .popular-badge {
+    background: var(--accent); color: white;
+    display: inline-block; border-radius: 20px;
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 3px 14px; margin-bottom: 1rem;
+  }
+  .price-plan { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.25rem; }
+  .price-amount { font-size: 2.8rem; font-weight: 800; font-family: 'Playfair Display', serif; color: var(--ink); line-height: 1.1; }
+  .price-amount sup { font-size: 1.2rem; vertical-align: top; margin-top: 0.5rem; display: inline-block; }
+  .price-per { font-size: 0.82rem; color: var(--ink-muted); margin-bottom: 1.5rem; }
+  .price-features { list-style: none; text-align: left; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .price-features li { font-size: 0.88rem; color: var(--ink-soft); display: flex; gap: 8px; align-items: flex-start; }
+  .price-check { color: var(--teal); font-weight: 700; flex-shrink: 0; }
+  .price-x { color: #ccc; font-weight: 700; flex-shrink: 0; }
+  .btn-plan {
+    width: 100%; padding: 0.75rem; border-radius: var(--radius);
+    font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-plan:hover { transform: translateY(-1px); }
+  .btn-plan-accent { background: var(--accent); color: white; }
+  .btn-plan-accent:hover { background: var(--accent-dark); }
+  .btn-plan-outline { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+  .btn-plan-outline:hover { background: var(--accent-light); }
+
+  /* ── CONTACT ── */
+  #contact { background: white; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; }
+  .contact-info h2 { margin-bottom: 1rem; }
+  .contact-info p { color: var(--ink-muted); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.7; }
+  .contact-items { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-item { display: flex; align-items: flex-start; gap: 14px; }
+  .contact-icon-wrap {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 1rem;
+  }
+  .contact-item-text strong { font-size: 0.88rem; color: var(--ink); display: block; margin-bottom: 2px; }
+  .contact-item-text span { font-size: 0.85rem; color: var(--ink-muted); }
+  .contact-form {
+    background: var(--surface-off); border-radius: var(--radius-lg);
+    border: 1px solid var(--border); padding: 2rem;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+  .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+  .form-group input, .form-group textarea, .form-group select {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.7rem 0.9rem;
+    font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--ink);
+    width: 100%; transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px rgba(92,62,244,0.08);
+  }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .btn-submit {
+    background: var(--accent); color: white;
+    border: none; border-radius: var(--radius);
+    padding: 0.85rem 2rem; font-weight: 600; font-size: 0.95rem;
+    cursor: pointer; width: 100%; transition: background 0.2s;
+  }
+  .btn-submit:hover { background: var(--accent-dark); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0d0d0d; color: white; padding: 4rem 2rem 2rem;
+  }
+  .footer-inner { max-width: 1140px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+  .footer-brand p { font-size: 0.88rem; color: #888; margin-top: 0.75rem; line-height: 1.7; max-width: 280px; }
+  .footer-col h5 { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #666; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col ul li a { font-size: 0.88rem; color: #aaa; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: white; }
+  .footer-bottom {
+    border-top: 1px solid #222; padding-top: 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.82rem; color: #555; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo-text { font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 0.5rem; }
+  .socials { display: flex; gap: 12px; }
+  .social-btn {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: #1a1a1a; border: 1px solid #333;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; color: #aaa; transition: background 0.2s, color 0.2s;
+  }
+  .social-btn:hover { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .about-grid, .contact-grid, .services-intro { grid-template-columns: 1fr; gap: 2rem; }
+    .services-grid, .courses-grid, .test-grid, .pricing-grid { grid-template-columns: 1fr 1fr; }
+    .steps-grid { grid-template-columns: 1fr 1fr; }
+    .steps-grid::before { display: none; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .mockup-content { grid-template-columns: 1fr; }
+    .mockup-sidebar { display: none; }
+  }
+  @media (max-width: 600px) {
+    .services-grid, .courses-grid, .test-grid, .pricing-grid, .steps-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+    .courses-header { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="logo-mark">N</div>
+      NeuralNest
+    </div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#courses">Courses</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact" class="btn-nav">Get Started</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO / HOME -->
+<section id="home">
+  <div class="container">
+    <div class="hero-eyebrow"><span></span> AI-Powered Learning Platform</div>
+    <h1>Learning that <em>adapts</em> to how you think</h1>
+    <p class="hero-sub">NeuralNest uses adaptive AI to build a personalized curriculum for every learner — from first concept to deep expertise.</p>
+    <div class="hero-cta">
+      <a href="#courses" class="btn-primary">Explore Courses →</a>
+      <a href="#how" class="btn-secondary">▶ Watch Demo</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">48K+</div><div class="stat-label">Active learners</div></div>
+      <div class="stat"><div class="stat-num">320+</div><div class="stat-label">AI-curated courses</div></div>
+      <div class="stat"><div class="stat-num">94%</div><div class="stat-label">Course completion rate</div></div>
+      <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Average rating</div></div>
+    </div>
+
+    <!-- Dashboard Mockup -->
+    <div class="hero-mockup">
+      <div class="mockup-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+      </div>
+      <div class="mockup-content">
+        <div class="mockup-sidebar">
+          <div class="sidebar-label">My Learning</div>
+          <div class="sidebar-item active"><div class="sidebar-dot" style="background:#5c3ef4"></div> Dashboard</div>
+          <div class="sidebar-item"><div class="sidebar-dot" style="background:#0ca678"></div> Courses</div>
+          <div class="sidebar-item"><div class="sidebar-dot" style="background:#e07b00"></div> Progress</div>
+          <div class="sidebar-item"><div class="sidebar-dot" style="background:#d84f2c"></div> AI Tutor</div>
+          <div class="sidebar-item"><div class="sidebar-dot" style="background:#777"></div> Community</div>
+          <br>
+          <div class="sidebar-label">Tools</div>
+          <div class="sidebar-item"><div class="sidebar-dot" style="background:#777"></div> Flashcards</div>
+          <div class="sidebar-item"><div class="sidebar-dot" style="background:#777"></div> Practice Tests</div>
+        </div>
+        <div class="mockup-main">
+          <div class="mockup-title">Welcome back, Priya 👋</div>
+          <div class="mockup-sub">Your AI tutor has 3 new recommendations based on your progress.</div>
+          <div class="progress-row">
+            <div class="progress-label"><span>Machine Learning Fundamentals</span><span>72%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:72%; background:#5c3ef4"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label"><span>Python for Data Science</span><span>91%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:91%; background:#0ca678"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label"><span>Deep Learning with PyTorch</span><span>34%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:34%; background:#e07b00"></div></div>
+          </div>
+          <div class="course-cards">
+            <div class="course-card">
+              <div class="course-tag" style="color:#5c3ef4">Recommended</div>
+              <div class="course-name">Neural Networks: Zero to Hero</div>
+              <div class="course-meta">18 modules · 6h 40m</div>
+            </div>
+            <div class="course-card">
+              <div class="course-tag" style="color:#0ca678">Trending</div>
+              <div class="course-name">LLM Fine-Tuning Workshop</div>
+              <div class="course-meta">12 modules · 4h 15m</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-card">
+          <div class="about-badge"><div class="about-badge-dot"></div> Adaptive AI Engine</div>
+          <p style="font-size:0.9rem; color:var(--ink-muted); margin-bottom:1.2rem; line-height:1.7;">
+            Our proprietary learning model tracks your mastery in real-time and restructures your curriculum every session.
+          </p>
+          <div class="about-ai-viz">
+            <div class="ai-node">
+              <div><div class="ai-node-label">Concept Mastery</div><div style="font-size:0.72rem; color:var(--ink-muted)">Neural Networks</div></div>
+              <div style="display:flex; align-items:center; gap:10px">
+                <div class="node-bar-wrap"><div class="node-bar" style="width:84%"></div></div>
+                <div class="ai-node-val">84%</div>
+              </div>
+            </div>
+            <div class="ai-node">
+              <div><div class="ai-node-label">Retention Score</div><div style="font-size:0.72rem; color:var(--ink-muted)">Spaced Repetition</div></div>
+              <div style="display:flex; align-items:center; gap:10px">
+                <div class="node-bar-wrap"><div class="node-bar" style="width:91%; background:var(--teal)"></div></div>
+                <div class="ai-node-val" style="color:var(--teal)">91%</div>
+              </div>
+            </div>
+            <div class="ai-node">
+              <div><div class="ai-node-label">Pace Calibration</div><div style="font-size:0.72rem; color:var(--ink-muted)">Optimal velocity</div></div>
+              <div style="display:flex; align-items:center; gap:10px">
+                <div class="node-bar-wrap"><div class="node-bar" style="width:70%; background:var(--amber)"></div></div>
+                <div class="ai-node-val" style="color:var(--amber)">Tuned</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="about-floating">
+          <div class="about-floating-title">🎓 New certificate earned!</div>
+          <div class="about-floating-sub">Python Data Science Fundamentals <span class="about-pill">NeuralNest Verified</span></div>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <div class="section-eyebrow">About NeuralNest</div>
+        <h2 class="section-title">Built for the way humans actually learn</h2>
+        <p class="section-sub">We started NeuralNest after watching talented people drop out of online courses — not from lack of motivation, but because the content wasn't built for them. Every mind is different. Ours adapts.</p>
+        <ul class="about-points">
+          <li><div class="about-check">✓</div> Personalized learning paths generated from day one, based on your goals and prior knowledge.</li>
+          <li><div class="about-check">✓</div> An AI tutor available 24/7 that answers questions and explains concepts in your style.</li>
+          <li><div class="about-check">✓</div> Real-world projects and peer reviews, not just multiple-choice quizzes.</li>
+          <li><div class="about-check">✓</div> Industry-recognized certificates backed by our hiring partner network of 200+ companies.</li>
+        </ul>
+        <div class="founders">
+          <div class="founder-avatars">
+            <div class="avatar" style="background:#5c3ef4">DR</div>
+            <div class="avatar" style="background:#0ca678">AK</div>
+            <div class="avatar" style="background:#d84f2c">SP</div>
+          </div>
+          <div class="founders-text">Founded by <strong>3 IIT alumni</strong> and AI researchers from DeepMind &amp; Google Brain</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="services-intro">
+      <div>
+        <div class="section-eyebrow">What We Offer</div>
+        <h2 class="section-title">Every tool you need to master any subject</h2>
+      </div>
+      <p class="section-sub">From live sessions to AI-driven exercises, NeuralNest covers the full learning stack — so you can focus on growing, not searching.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card featured">
+        <div class="featured-tag">Most Used</div>
+        <div class="service-icon" style="background:var(--accent-light)">🧠</div>
+        <h3>Adaptive Learning Paths</h3>
+        <p>AI maps your strengths and gaps to build a curriculum that grows with you — re-evaluated after every lesson.</p>
+        <div class="service-tag-row">
+          <div class="tag">Personalized</div>
+          <div class="tag">Real-time</div>
+          <div class="tag">All levels</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:var(--teal-light)">🤖</div>
+        <h3>AI Tutor Chat</h3>
+        <p>Ask questions mid-lesson and get instant, context-aware explanations — like having a patient teacher beside you.</p>
+        <div class="service-tag-row">
+          <div class="tag">24/7 Available</div>
+          <div class="tag">Multi-language</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:var(--amber-light)">🏗️</div>
+        <h3>Project-Based Learning</h3>
+        <p>Every course ends with a real-world capstone that goes straight into your portfolio and on your certificate.</p>
+        <div class="service-tag-row">
+          <div class="tag">Portfolio-ready</div>
+          <div class="tag">Peer review</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:var(--coral-light)">🎯</div>
+        <h3>Skill Assessments</h3>
+        <p>Pinpoint exactly what you know and what you don't before starting, so you skip what you've mastered.</p>
+        <div class="service-tag-row">
+          <div class="tag">No wasted time</div>
+          <div class="tag">Diagnostic</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:#f0edf7">🏆</div>
+        <h3>Certificates & Credentials</h3>
+        <p>Verified certificates recognized by 200+ hiring partners, with blockchain-backed authenticity.</p>
+        <div class="service-tag-row">
+          <div class="tag">Blockchain-verified</div>
+          <div class="tag">Shareable</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:#e3f4f1">👥</div>
+        <h3>Live Cohort Sessions</h3>
+        <p>Weekly live sessions with expert instructors and cohorts of peers, for accountability and deep discussion.</p>
+        <div class="service-tag-row">
+          <div class="tag">Weekly live</div>
+          <div class="tag">Small groups</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="steps-header">
+      <div class="section-eyebrow">How It Works</div>
+      <h2 class="section-title">From sign-up to job-ready in four steps</h2>
+      <p class="section-sub">NeuralNest removes friction from every part of the learning journey.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num" style="background:var(--accent-light); color:var(--accent); border-color:var(--accent)">1</div>
+        <h4>Take the skill quiz</h4>
+        <p>A 5-minute adaptive quiz maps your current knowledge so we can skip what you know and focus on what matters.</p>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--teal-light); color:var(--teal); border-color:var(--teal)">2</div>
+        <h4>Get your learning path</h4>
+        <p>The AI generates a personalized roadmap — sequenced modules, projects, and checkpoints built around your goal.</p>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--amber-light); color:var(--amber); border-color:var(--amber)">3</div>
+        <h4>Learn with AI support</h4>
+        <p>Study at your pace with video lessons, exercises, live sessions, and your AI tutor on standby at every step.</p>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--coral-light); color:var(--coral); border-color:var(--coral)">4</div>
+        <h4>Earn & apply</h4>
+        <p>Complete your capstone, earn your verified certificate, and get discovered by our hiring partner companies.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section id="courses">
+  <div class="container">
+    <div class="courses-header">
+      <div>
+        <div class="section-eyebrow">Popular Courses</div>
+        <h2 class="section-title" style="margin-bottom:0">Explore top-rated tracks</h2>
+      </div>
+      <a href="#contact" class="btn-secondary" style="white-space:nowrap">View all 320+ courses →</a>
+    </div>
+    <div class="courses-grid">
+      <div class="course-big-card">
+        <div class="course-thumb" style="background:linear-gradient(135deg,#ede9fd,#c9c0f7)">
+          🧠
+          <div class="course-level" style="background:var(--accent-light); color:var(--accent)">Beginner</div>
+        </div>
+        <div class="course-body">
+          <h4>Machine Learning Fundamentals</h4>
+          <p>Master the core algorithms powering modern AI — from linear regression to ensemble methods.</p>
+          <div class="course-foot">
+            <div>
+              <div class="course-rating">★ 4.9</div>
+              <div class="course-students">12,400 students</div>
+            </div>
+            <a href="#contact" class="enroll-btn">Enroll Free</a>
+          </div>
+        </div>
+      </div>
+      <div class="course-big-card">
+        <div class="course-thumb" style="background:linear-gradient(135deg,#e1f5ee,#9fe1cb)">
+          🐍
+          <div class="course-level" style="background:var(--teal-light); color:var(--teal)">Intermediate</div>
+        </div>
+        <div class="course-body">
+          <h4>Python for Data Science</h4>
+          <p>Pandas, NumPy, visualization, and real-world datasets — everything you need to become data-fluent.</p>
+          <div class="course-foot">
+            <div>
+              <div class="course-rating">★ 4.8</div>
+              <div class="course-students">9,870 students</div>
+            </div>
+            <a href="#contact" class="enroll-btn">Enroll Free</a>
+          </div>
+        </div>
+      </div>
+      <div class="course-big-card">
+        <div class="course-thumb" style="background:linear-gradient(135deg,#faeeda,#fac775)">
+          🔗
+          <div class="course-level" style="background:var(--amber-light); color:var(--amber)">Advanced</div>
+        </div>
+        <div class="course-body">
+          <h4>LLM Engineering & Fine-Tuning</h4>
+          <p>Build, deploy, and fine-tune large language models for real applications. Hands-on with GPT and Llama.</p>
+          <div class="course-foot">
+            <div>
+              <div class="course-rating">★ 4.9</div>
+              <div class="course-students">5,230 students</div>
+            </div>
+            <a href="#contact" class="enroll-btn">Enroll Free</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="test-header">
+      <div class="section-eyebrow">Student Stories</div>
+      <h2 class="section-title">What our learners say</h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <blockquote>"NeuralNest genuinely changed how I learn. The AI tutor explained backpropagation better than three textbooks combined. I landed an ML engineer role 4 months after starting."</blockquote>
+        <div class="test-author">
+          <div class="test-avatar" style="background:#5c3ef4">RP</div>
+          <div><div class="test-name">Rahul Pandey</div><div class="test-role">ML Engineer at Flipkart</div></div>
+        </div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <blockquote>"As someone switching careers from finance, I was overwhelmed. The adaptive path started exactly where I was. Six months later I shipped my first data product to production."</blockquote>
+        <div class="test-author">
+          <div class="test-avatar" style="background:#0ca678">NG</div>
+          <div><div class="test-name">Nadia Gupta</div><div class="test-role">Data Analyst at HDFC Bank</div></div>
+        </div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <blockquote>"The project-based approach is the real differentiator. I didn't just learn theory — I built things I could show in interviews. 94% completion rate says it all."</blockquote>
+        <div class="test-author">
+          <div class="test-avatar" style="background:#d84f2c">SM</div>
+          <div><div class="test-name">Shruti Malhotra</div><div class="test-role">AI Research Intern at IIT Bombay</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="pricing-header">
+      <div class="section-eyebrow">Pricing</div>
+      <h2 class="section-title">Invest in your future</h2>
+      <p class="section-sub" style="margin:0 auto">Flexible plans for students, professionals, and teams.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="price-plan">Free</div>
+        <div class="price-amount">₹0</div>
+        <div class="price-per">forever, no credit card</div>
+        <ul class="price-features">
+          <li><span class="price-check">✓</span> 5 free courses</li>
+          <li><span class="price-check">✓</span> AI Tutor (10 queries/day)</li>
+          <li><span class="price-check">✓</span> Community access</li>
+          <li><span class="price-x">✗</span> Certificates</li>
+          <li><span class="price-x">✗</span> Live sessions</li>
+          <li><span class="price-x">✗</span> Hiring partner access</li>
+        </ul>
+        <button class="btn-plan btn-plan-outline">Start Free</button>
+      </div>
+      <div class="pricing-card popular">
+        <div class="popular-badge">Most Popular</div>
+        <div class="price-plan">Pro Learner</div>
+        <div class="price-amount"><sup>₹</sup>999</div>
+        <div class="price-per">per month, billed annually</div>
+        <ul class="price-features">
+          <li><span class="price-check">✓</span> Unlimited courses</li>
+          <li><span class="price-check">✓</span> Unlimited AI Tutor</li>
+          <li><span class="price-check">✓</span> Verified certificates</li>
+          <li><span class="price-check">✓</span> 2 live sessions / month</li>
+          <li><span class="price-check">✓</span> Hiring partner access</li>
+          <li><span class="price-x">✗</span> 1-on-1 mentorship</li>
+        </ul>
+        <button class="btn-plan btn-plan-accent">Get Pro →</button>
+      </div>
+      <div class="pricing-card">
+        <div class="price-plan">Expert</div>
+        <div class="price-amount"><sup>₹</sup>2,499</div>
+        <div class="price-per">per month, billed annually</div>
+        <ul class="price-features">
+          <li><span class="price-check">✓</span> Everything in Pro</li>
+          <li><span class="price-check">✓</span> 4 live sessions / month</li>
+          <li><span class="price-check">✓</span> 1-on-1 mentorship</li>
+          <li><span class="price-check">✓</span> Career coaching</li>
+          <li><span class="price-check">✓</span> Priority support</li>
+          <li><span class="price-check">✓</span> Custom learning plan</li>
+        </ul>
+        <button class="btn-plan btn-plan-outline">Get Expert</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="section-eyebrow">Contact Us</div>
+        <h2 class="section-title">Let's talk about your learning journey</h2>
+        <p>Have questions about courses, plans, or enterprise access for your organization? Reach out — our team responds within 2 hours on weekdays.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon-wrap" style="background:var(--accent-light)">📧</div>
+            <div class="contact-item-text">
+              <strong>Email</strong>
+              <span>hello@neuralnest.in</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon-wrap" style="background:var(--teal-light)">📞</div>
+            <div class="contact-item-text">
+              <strong>Phone</strong>
+              <span>+91 98765 43210</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon-wrap" style="background:var(--amber-light)">📍</div>
+            <div class="contact-item-text">
+              <strong>Office</strong>
+              <span>Indiranagar, Bengaluru, Karnataka 560038</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon-wrap" style="background:var(--coral-light)">🕐</div>
+            <div class="contact-item-text">
+              <strong>Hours</strong>
+              <span>Monday – Friday, 9 AM – 7 PM IST</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="contact-form">
+          <h3 style="font-family:'Inter',sans-serif; font-size:1.05rem; font-weight:700; margin-bottom:1.5rem;">Send us a message</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="Priya">
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Sharma">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="priya@example.com">
+          </div>
+          <div class="form-group">
+            <label>I'm interested in</label>
+            <select>
+              <option>Personal Learning (Pro Plan)</option>
+              <option>Expert Plan with Mentorship</option>
+              <option>Enterprise / Team License</option>
+              <option>Becoming a Course Instructor</option>
+              <option>Partnership Inquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Tell us about your learning goals or questions…"></textarea>
+          </div>
+          <button class="btn-submit">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color:white; margin-bottom:4px">
+          <div class="logo-mark">N</div>
+          NeuralNest
+        </div>
+        <p>AI-powered learning for the modern era. Personalized, adaptive, and built to take you from curious to career-ready.</p>
+        <div class="socials" style="margin-top:1rem">
+          <div class="social-btn">𝕏</div>
+          <div class="social-btn">in</div>
+          <div class="social-btn">▶</div>
+          <div class="social-btn">ig</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Platform</h5>
+        <ul>
+          <li><a href="#">Browse Courses</a></li>
+          <li><a href="#">AI Tutor</a></li>
+          <li><a href="#">Live Sessions</a></li>
+          <li><a href="#">Certificates</a></li>
+          <li><a href="#">Mobile App</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Support</h5>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Teach on NeuralNest</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 NeuralNest Technologies Pvt. Ltd. All rights reserved.</div>
+      <div>Made with ❤️ in Bengaluru, India 🇮🇳</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
